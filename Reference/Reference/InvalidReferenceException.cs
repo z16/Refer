@@ -2,6 +2,9 @@
 
 namespace Reference
 {
+    /// <summary>
+    /// Describes an error during the evaluation of the path of the reference.
+    /// </summary>
     public class InvalidReferenceException : Exception
     {
         internal InvalidReferenceException()
