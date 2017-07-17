@@ -8,28 +8,55 @@ namespace Reference
     public static class Reference
     {
         public static Reference<TProp, TBase> Create<TProp, TBase>(Expression<Func<TBase, TProp>> expression, TBase model = default(TBase))
-        {
-            return new Reference<TProp, TBase>(expression, model);
-        }
+            => new Reference<TProp, TBase>(expression, model);
 
         public static Reference<TProp, TBase> Bind<TProp, TBase>(this TBase model, Expression<Func<TBase, TProp>> expression)
-        {
-            return Create(expression, model);
-        }
+            => Create(expression, model);
     }
 
     [DebuggerDisplay("{" + nameof(Value) + "}")]
     public class Reference<TProp, TBase> : IReference<TProp, TBase>, IReference<TProp>, IReference
     {
-        private Expression<Func<TBase, TProp>> GetterExpression { get; }
-        private Func<TBase, TProp>  GetterFunction { get; set; }
-        private Action<TBase, TProp>  SetterFunction { get; set; }
+        private readonly Lazy<Func<TBase, TProp>>  GetterFunction;
+        private readonly Lazy<Action<TBase, TProp>> SetterFunction;
         public TBase Model { get; set; }
 
         public Reference(Expression<Func<TBase, TProp>> getterExpression, TBase model = default(TBase))
         {
-            GetterExpression = getterExpression;
             Model = model;
+
+            GetterFunction = new Lazy<Func<TBase, TProp>>(getterExpression.Compile);
+            SetterFunction = new Lazy<Action<TBase, TProp>>(CreateSetter);
+
+            Action<TBase, TProp> CreateSetter()
+            {
+                var target = getterExpression.Parameters.Single();
+                var value = Expression.Parameter(typeof(TProp), "value");
+                var assignment = Expression.Assign(CreateSetterAssignmentTarget(), value);
+                return Expression.Lambda<Action<TBase, TProp>>(assignment, target, value).Compile();
+            }
+
+            Expression CreateSetterAssignmentTarget()
+            {
+                var body = getterExpression.Body;
+
+                var binaryExpression = body as BinaryExpression;
+                if (binaryExpression != null && binaryExpression.NodeType == ExpressionType.ArrayIndex)
+                {
+                    return Expression.ArrayAccess(binaryExpression.Left, binaryExpression.Right);
+                }
+
+                var methodCallExpression = body as MethodCallExpression;
+                if (methodCallExpression?.Object != null)
+                {
+                    if (methodCallExpression.Method.Name == "get_Item")
+                    {
+                        return Expression.Property(methodCallExpression.Object, "Item", methodCallExpression.Arguments.Single());
+                    }
+                }
+
+                return body;
+            }
         }
 
         public Boolean Valid
@@ -91,7 +118,7 @@ namespace Reference
 
         Object IReference.Value
         {
-            get { return Value; }
+            get => Value;
             set
             {
                 try
@@ -108,59 +135,12 @@ namespace Reference
         Object IReference.ValueOrDefault => ValueOrDefault;
 
         public static implicit operator TProp(Reference<TProp, TBase> reference)
-        {
-            return reference.Value;
-        }
-
-        public override String ToString()
-        {
-            return $"{typeof(TBase)} {GetterExpression}";
-        }
+            => reference.Value;
 
         private TProp Getter(TBase model)
-        {
-            if (GetterFunction == null)
-            {
-                GetterFunction = GetterExpression.Compile();
-            }
-            return GetterFunction(model);
-        }
+            => GetterFunction.Value(model);
 
         private void Setter(TBase model, TProp value)
-        {
-            if (SetterFunction == null)
-            {
-                SetterFunction = CreateSetter();
-            }
-            SetterFunction(model, value);
-        }
-
-        private Action<TBase, TProp> CreateSetter()
-        {
-            var target = GetterExpression.Parameters.Single();
-            var value = Expression.Parameter(typeof(TProp), "value");
-            var assignment = Expression.Assign(CreateSetterAssignmentTarget(GetterExpression.Body), value);
-            return Expression.Lambda<Action<TBase, TProp>>(assignment, target, value).Compile();
-        }
-
-        private static Expression CreateSetterAssignmentTarget(Expression body)
-        {
-            var binaryExpression = body as BinaryExpression;
-            if (binaryExpression != null && binaryExpression.NodeType == ExpressionType.ArrayIndex)
-            {
-                return Expression.ArrayAccess(binaryExpression.Left, binaryExpression.Right);
-            }
-
-            var methodCallExpression = body as MethodCallExpression;
-            if (methodCallExpression?.Object != null)
-            {
-                if (methodCallExpression.Method.Name == "get_Item")
-                {
-                    return Expression.Property(methodCallExpression.Object, "Item", methodCallExpression.Arguments.Single());
-                }
-            }
-
-            return body;
-        }
+            => SetterFunction.Value(model, value);
     }
 }

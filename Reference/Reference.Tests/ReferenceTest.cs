@@ -86,6 +86,19 @@ namespace Reference.Tests
                 },
             };
 
+        private class Indexer
+        {
+            // ReSharper disable once UnusedParameter.Local
+            internal Object this[Object _]
+            {
+                get => Value;
+                // ReSharper disable once UnusedMember.Local
+                set => Value = value;
+            }
+
+            private Object Value;
+        }
+
         private static void CheckValidGet<TProp>(IReference<TProp> reference, TProp control)
         {
             Assert.IsTrue(reference.Valid);
@@ -225,6 +238,17 @@ namespace Reference.Tests
         }
 
         [TestMethod]
+        public void Reference_Indexer()
+        {
+            var indexer = new Indexer();
+
+            var property = indexer.Bind(i => i[null]);
+            Assert.AreEqual(null, property.Value);
+            property.Value = "anything";
+            Assert.AreEqual("anything", property.Value);
+        }
+
+        [TestMethod]
         public void Reference_FactoryConstructor()
         {
             var foo = MakeFoo();
@@ -244,6 +268,75 @@ namespace Reference.Tests
             Assert.AreEqual("frouth", property.Value);
             property.Value = "froutheen";
             Assert.AreEqual("froutheen", foo.Bar.Bazzes[3].Moo);
+        }
+
+        [TestMethod]
+        public void Reference_IReferenceValue_Valid()
+        {
+            var foo = MakeFoo();
+
+            var property = (IReference)foo.Bind(f => f.Qoo);
+            Assert.AreEqual(15, property.Value);
+            property.Value = 13;
+            Assert.AreEqual(13, foo.Qoo);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidReferenceException), "Reference could not be retrieved.")]
+        public void Reference_IReferenceValue_Get_Invalid()
+        {
+            var foo = new Foo();
+
+            var property = (IReference)foo.Bind(f => f.Bar.Bazzes[0].Moo);
+            var _ = property.Value;
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidReferenceException), "Reference could not be set.")]
+        public void Reference_IReferenceValue_Set_Invalid()
+        {
+            var foo = new Foo();
+
+            var property = (IReference)foo.Bind(f => f.Bar.Bazzes[0].Moo);
+            property.Value = 13;
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidReferenceException), "Setter value of incorrect type.")]
+        public void Reference_IReferenceValue_Set_InvalidCast()
+        {
+            var foo = new Foo();
+
+            var property = (IReference)foo.Bind(f => f.Qoo);
+            property.Value = "test";
+        }
+
+        [TestMethod]
+        public void Reference_IReferenceValueOrDefault_Valid()
+        {
+            var foo = new Foo();
+
+            var property = (IReference)foo.Bind(f => f.Bar.Bazzes[0].Moo);
+            Assert.AreEqual(null, property.ValueOrDefault);
+        }
+
+        [TestMethod]
+        public void Reference_IReferenceValueOrDefault_Invalid()
+        {
+            var foo = new Foo();
+
+            var property = (IReference)foo.Bind(f => f.Bar.Bazzes[0].Moo);
+            Assert.AreEqual(null, property.ValueOrDefault);
+        }
+
+        [TestMethod]
+        public void Reference_ImplicitConversion()
+        {
+            var foo = MakeFoo();
+
+            var property = foo.Bind(f => f.Qoo);
+            float value = property;
+            Assert.AreEqual(15.0f, value);
         }
     }
 }
