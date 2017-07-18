@@ -50,6 +50,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="ConditionTest.cs" />
     <Compile Include="InvalidReferenceExceptionTest.cs" />
     <Compile Include="ReferenceTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

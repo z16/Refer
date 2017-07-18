@@ -180,7 +180,8 @@ namespace Reference
         /// <summary>
         /// <inheritdoc cref="IReference.ValueOrDefault"/>
         /// </summary>
-        Object IReference.ValueOrDefault => ValueOrDefault;
+        Object IReference.ValueOrDefault
+            => ValueOrDefault;
 
         public static implicit operator TProp(Reference<TProp, TBase> reference)
             => reference.Value;

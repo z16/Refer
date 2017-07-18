@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Condition.cs" />
     <Compile Include="InvalidReferenceException.cs" />
     <Compile Include="IReference.cs" />
     <Compile Include="Reference.cs" />
