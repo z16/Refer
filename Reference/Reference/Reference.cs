@@ -104,7 +104,7 @@ namespace Reference
                     Getter(Model);
                     return true;
                 }
-                catch (Exception)
+                catch (InvalidReferenceException)
                 {
                     return false;
                 }
@@ -116,28 +116,8 @@ namespace Reference
         /// </summary>
         public TProp Value
         {
-            get
-            {
-                try
-                {
-                    return Getter(Model);
-                }
-                catch (Exception ex)
-                {
-                    throw new InvalidReferenceException("Reference could not be retrieved.", ex);
-                }
-            }
-            set
-            {
-                try
-                {
-                    Setter(Model, value);
-                }
-                catch (Exception ex)
-                {
-                    throw new InvalidReferenceException("Reference could not be set.", ex);
-                }
-            }
+            get => Getter(Model);
+            set => Setter(Model, value);
         }
 
         /// <summary>
@@ -187,9 +167,27 @@ namespace Reference
             => reference.Value;
 
         private TProp Getter(TBase model)
-            => GetterFunction.Value(model);
+        {
+            try
+            {
+                return GetterFunction.Value(model);
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidReferenceException("Reference could not be retrieved.", ex);
+            }
+        }
 
         private void Setter(TBase model, TProp value)
-            => SetterFunction.Value(model, value);
+        {
+            try
+            {
+                SetterFunction.Value(model, value);
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidReferenceException("Reference could not be set.", ex);
+            }
+        }
     }
 }
