@@ -35,7 +35,7 @@ namespace Reference
     /// </summary>
     /// <typeparam name="TBase">The type of the base object.</typeparam>
     [DebuggerDisplay("{" + nameof(Value) + "}")]
-    public class Condition<TBase> : Reference<Boolean, TBase>
+    public class Condition<TBase> : Reference<TBase, Boolean>
     {
         /// <summary>
         /// Creates a condition, based on the provided <see cref="model"/>.

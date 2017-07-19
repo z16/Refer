@@ -144,19 +144,19 @@ namespace Reference.Tests
             var foo = MakeFoo();
 
             CheckValidGet(new Reference<Foo, Foo>(f => f, foo), foo);
-            CheckValidGet(new Reference<Bar, Foo>(f => f.Bar, foo), foo.Bar);
-            CheckValidGet(new Reference<Int32, Foo>(f => f.Qoo, foo), foo.Qoo);
-            CheckValidGet(new Reference<Baz[], Foo>(f => f.Bar.Bazzes, foo), foo.Bar.Bazzes);
-            CheckValidGet(new Reference<IList<Doo>, Foo>(f => f.Dar, foo), foo.Dar);
-            CheckValidGet(new Reference<IDictionary<Ran, Roo>, Foo>(f => f.Rar, foo), foo.Rar);
+            CheckValidGet(new Reference<Foo, Bar>(f => f.Bar, foo), foo.Bar);
+            CheckValidGet(new Reference<Foo, Int32>(f => f.Qoo, foo), foo.Qoo);
+            CheckValidGet(new Reference<Foo, Baz[]>(f => f.Bar.Bazzes, foo), foo.Bar.Bazzes);
+            CheckValidGet(new Reference<Foo, IList<Doo>>(f => f.Dar, foo), foo.Dar);
+            CheckValidGet(new Reference<Foo, IDictionary<Ran, Roo>>(f => f.Rar, foo), foo.Rar);
             foreach (var i in Enumerable.Range(0, 4))
             {
-                CheckValidGet(new Reference<Baz, Foo>(f => f.Bar.Bazzes[i], foo), foo.Bar.Bazzes[i]);
-                CheckValidGet(new Reference<String, Foo>(f => f.Bar.Bazzes[i].Moo, foo), foo.Bar.Bazzes[i].Moo);
-                CheckValidGet(new Reference<Doo, Foo>(f => f.Dar[i], foo), foo.Dar[i]);
-                CheckValidGet(new Reference<Int32, Foo>(f => f.Dar[i].Daz, foo), foo.Dar[i].Daz);
-                CheckValidGet(new Reference<Roo, Foo>(f => f.Rar[i], foo), foo.Rar[i]);
-                CheckValidGet(new Reference<Double, Foo>(f => f.Rar[i].Raz, foo), foo.Rar[i].Raz);
+                CheckValidGet(new Reference<Foo, Baz>(f => f.Bar.Bazzes[i], foo), foo.Bar.Bazzes[i]);
+                CheckValidGet(new Reference<Foo, String>(f => f.Bar.Bazzes[i].Moo, foo), foo.Bar.Bazzes[i].Moo);
+                CheckValidGet(new Reference<Foo, Doo>(f => f.Dar[i], foo), foo.Dar[i]);
+                CheckValidGet(new Reference<Foo, Int32>(f => f.Dar[i].Daz, foo), foo.Dar[i].Daz);
+                CheckValidGet(new Reference<Foo, Roo>(f => f.Rar[i], foo), foo.Rar[i]);
+                CheckValidGet(new Reference<Foo, Double>(f => f.Rar[i].Raz, foo), foo.Rar[i].Raz);
             }
         }
 
@@ -164,20 +164,20 @@ namespace Reference.Tests
         public void Reference_Get_Invalid()
         {
             CheckValidGet(new Reference<Foo, Foo>(f => f), null);
-            CheckInvalidGet(new Reference<Bar, Foo>(f => f.Bar));
-            CheckInvalidGet(new Reference<Int32, Foo>(f => f.Qoo));
-            CheckInvalidGet(new Reference<IList<Doo>, Foo>(f => f.Dar));
-            CheckInvalidGet(new Reference<IDictionary<Ran, Roo>, Foo>(f => f.Rar));
+            CheckInvalidGet(new Reference<Foo, Bar>(f => f.Bar));
+            CheckInvalidGet(new Reference<Foo, Int32>(f => f.Qoo));
+            CheckInvalidGet(new Reference<Foo, IList<Doo>>(f => f.Dar));
+            CheckInvalidGet(new Reference<Foo, IDictionary<Ran, Roo>>(f => f.Rar));
             var foo = new Foo();
-            CheckInvalidGet(new Reference<Baz[], Foo>(f => f.Bar.Bazzes, foo));
+            CheckInvalidGet(new Reference<Foo, Baz[]>(f => f.Bar.Bazzes, foo));
             foo.Bar = new Bar();
-            CheckInvalidGet(new Reference<Baz, Foo>(f => f.Bar.Bazzes[2], foo));
+            CheckInvalidGet(new Reference<Foo, Baz>(f => f.Bar.Bazzes[2], foo));
             foo.Bar.Bazzes = new Baz[4];
-            CheckInvalidGet(new Reference<String, Foo>(f => f.Bar.Bazzes[2].Moo, foo));
+            CheckInvalidGet(new Reference<Foo, String>(f => f.Bar.Bazzes[2].Moo, foo));
             foo.Dar = new List<Doo>() {null, null, null, null};
-            CheckInvalidGet(new Reference<Int32, Foo>(f => f.Dar[2].Daz, foo));
+            CheckInvalidGet(new Reference<Foo, Int32>(f => f.Dar[2].Daz, foo));
             foo.Rar = new Dictionary<Ran, Roo>() {[0] = null, [1] = null, [2] = null, [3] = null};
-            CheckInvalidGet(new Reference<Double, Foo>(f => f.Rar[2].Raz, foo));
+            CheckInvalidGet(new Reference<Foo, Double>(f => f.Rar[2].Raz, foo));
         }
 
         [TestMethod]
@@ -186,44 +186,44 @@ namespace Reference.Tests
             var foo = new Foo();
             var fooControl = MakeFoo();
 
-            CheckValidSet(new Reference<Bar, Foo>(f => f.Bar, foo), fooControl.Bar, () => foo.Bar);
+            CheckValidSet(new Reference<Foo, Bar>(f => f.Bar, foo), fooControl.Bar, () => foo.Bar);
             foo.Bar = new Bar();
-            CheckValidSet(new Reference<Int32, Foo>(f => f.Qoo, foo), fooControl.Qoo, () => foo.Qoo);
-            CheckValidSet(new Reference<Baz[], Foo>(f => f.Bar.Bazzes, foo), fooControl.Bar.Bazzes, () => foo.Bar.Bazzes);
+            CheckValidSet(new Reference<Foo, Int32>(f => f.Qoo, foo), fooControl.Qoo, () => foo.Qoo);
+            CheckValidSet(new Reference<Foo, Baz[]>(f => f.Bar.Bazzes, foo), fooControl.Bar.Bazzes, () => foo.Bar.Bazzes);
             foo.Bar.Bazzes = new Baz[4];
-            CheckValidSet(new Reference<IList<Doo>, Foo>(f => f.Dar, foo), fooControl.Dar, () => foo.Dar);
+            CheckValidSet(new Reference<Foo, IList<Doo>>(f => f.Dar, foo), fooControl.Dar, () => foo.Dar);
             foo.Dar = new List<Doo>() {null, null, null, null};
-            CheckValidSet(new Reference<IDictionary<Ran, Roo>, Foo>(f => f.Rar, foo), fooControl.Rar, () => foo.Rar);
+            CheckValidSet(new Reference<Foo, IDictionary<Ran, Roo>>(f => f.Rar, foo), fooControl.Rar, () => foo.Rar);
             foo.Rar = new Dictionary<Ran, Roo>() {[0] = null, [1] = null, [2] = null, [3] = null};
             foreach (var i in Enumerable.Range(0, 4))
             {
-                CheckValidSet(new Reference<Baz, Foo>(f => f.Bar.Bazzes[i], foo), fooControl.Bar.Bazzes[i], () => foo.Bar.Bazzes[i]);
+                CheckValidSet(new Reference<Foo, Baz>(f => f.Bar.Bazzes[i], foo), fooControl.Bar.Bazzes[i], () => foo.Bar.Bazzes[i]);
                 foo.Bar.Bazzes[i] = new Baz();
-                CheckValidSet(new Reference<String, Foo>(f => f.Bar.Bazzes[i].Moo, foo), fooControl.Bar.Bazzes[i].Moo, () => foo.Bar.Bazzes[i].Moo);
-                CheckValidSet(new Reference<Doo, Foo>(f => f.Dar[i], foo), fooControl.Dar[i], () => foo.Dar[i]);
+                CheckValidSet(new Reference<Foo, String>(f => f.Bar.Bazzes[i].Moo, foo), fooControl.Bar.Bazzes[i].Moo, () => foo.Bar.Bazzes[i].Moo);
+                CheckValidSet(new Reference<Foo, Doo>(f => f.Dar[i], foo), fooControl.Dar[i], () => foo.Dar[i]);
                 foo.Dar[i] = new Doo();
-                CheckValidSet(new Reference<Int32, Foo>(f => f.Dar[i].Daz, foo), fooControl.Dar[i].Daz, () => foo.Dar[i].Daz);
-                CheckValidSet(new Reference<Roo, Foo>(f => f.Rar[i], foo), fooControl.Rar[i], () => foo.Rar[i]);
+                CheckValidSet(new Reference<Foo, Int32>(f => f.Dar[i].Daz, foo), fooControl.Dar[i].Daz, () => foo.Dar[i].Daz);
+                CheckValidSet(new Reference<Foo, Roo>(f => f.Rar[i], foo), fooControl.Rar[i], () => foo.Rar[i]);
                 foo.Rar[i] = new Roo();
-                CheckValidSet(new Reference<Double, Foo>(f => f.Rar[i].Raz, foo), fooControl.Rar[i].Raz, () => foo.Rar[i].Raz);
+                CheckValidSet(new Reference<Foo, Double>(f => f.Rar[i].Raz, foo), fooControl.Rar[i].Raz, () => foo.Rar[i].Raz);
             }
         }
 
         [TestMethod]
         public void Reference_Set_Invalid()
         {
-            CheckInvalidSet(new Reference<Bar, Foo>(f => f.Bar), new Bar());
-            CheckInvalidSet(new Reference<Int32, Foo>(f => f.Qoo), 15);
-            CheckInvalidSet(new Reference<IList<Doo>, Foo>(f => f.Dar), new List<Doo>());
-            CheckInvalidSet(new Reference<IDictionary<Ran, Roo>, Foo>(f => f.Rar), new Dictionary<Ran, Roo>());
+            CheckInvalidSet(new Reference<Foo, Bar>(f => f.Bar), new Bar());
+            CheckInvalidSet(new Reference<Foo, Int32>(f => f.Qoo), 15);
+            CheckInvalidSet(new Reference<Foo, IList<Doo>>(f => f.Dar), new List<Doo>());
+            CheckInvalidSet(new Reference<Foo, IDictionary<Ran, Roo>>(f => f.Rar), new Dictionary<Ran, Roo>());
             var foo = new Foo();
-            CheckInvalidSet(new Reference<Baz[], Foo>(f => f.Bar.Bazzes, foo), new Baz[4]);
+            CheckInvalidSet(new Reference<Foo, Baz[]>(f => f.Bar.Bazzes, foo), new Baz[4]);
             foo.Bar = new Bar();
             foreach (var i in Enumerable.Range(0, 4))
             {
-                CheckInvalidSet(new Reference<Baz, Foo>(f => f.Bar.Bazzes[i], foo), new Baz());
-                CheckInvalidSet(new Reference<Doo, Foo>(f => f.Dar[i], foo), new Doo());
-                CheckInvalidSet(new Reference<Roo, Foo>(f => f.Rar[i], foo), new Roo());
+                CheckInvalidSet(new Reference<Foo, Baz>(f => f.Bar.Bazzes[i], foo), new Baz());
+                CheckInvalidSet(new Reference<Foo, Doo>(f => f.Dar[i], foo), new Doo());
+                CheckInvalidSet(new Reference<Foo, Roo>(f => f.Rar[i], foo), new Roo());
             }
 
             foo.Bar.Bazzes = new Baz[4];
@@ -231,9 +231,9 @@ namespace Reference.Tests
             foo.Rar = new Dictionary<Ran, Roo>() {[0] = null, [1] = null, [2] = null, [3] = null};
             foreach (var i in Enumerable.Range(0, 4))
             {
-                CheckInvalidSet(new Reference<String, Foo>(f => f.Bar.Bazzes[i].Moo, foo), "");
-                CheckInvalidSet(new Reference<Double, Foo>(f => f.Rar[i].Raz, foo), 1.0);
-                CheckInvalidSet(new Reference<Int32, Foo>(f => f.Dar[i].Daz, foo), 0);
+                CheckInvalidSet(new Reference<Foo, String>(f => f.Bar.Bazzes[i].Moo, foo), "");
+                CheckInvalidSet(new Reference<Foo, Double>(f => f.Rar[i].Raz, foo), 1.0);
+                CheckInvalidSet(new Reference<Foo, Int32>(f => f.Dar[i].Daz, foo), 0);
             }
         }
 
@@ -337,6 +337,18 @@ namespace Reference.Tests
             var property = foo.Bind(f => f.Qoo);
             float value = property;
             Assert.AreEqual(15.0f, value);
+        }
+
+        [TestMethod]
+        public void Reference_IModelReference_Model()
+        {
+            var reference = (IModelReference)new Reference<int, int>(i => i + 1);
+
+            var foo = 3;
+            reference.Model = foo;
+
+            Assert.AreEqual(4, reference.Value);
+            Assert.AreEqual(foo, reference.Model);
         }
     }
 }

@@ -18,8 +18,8 @@ namespace Reference
         /// <param name="expression">A getter that retrieves the <see cref="Reference{TProp, TBase}.Value"/> from the <see cref="Reference{TProp,TBase}.Model"/>.</param>
         /// <param name="model">The base object to retrieve the property from.</param>
         /// <returns>The reference object.</returns>
-        public static Reference<TProp, TBase> Create<TProp, TBase>(Expression<Func<TBase, TProp>> expression, TBase model = default(TBase))
-            => new Reference<TProp, TBase>(expression, model);
+        public static Reference<TBase, TProp> Create<TProp, TBase>(Expression<Func<TBase, TProp>> expression, TBase model = default(TBase))
+            => new Reference<TBase, TProp>(expression, model);
 
         /// <summary>
         /// Creates a reference to a <see cref="TProp"/> field or property, based on <see cref="model"/> it is called on.
@@ -29,17 +29,17 @@ namespace Reference
         /// <param name="expression">A getter that retrieves the <see cref="Reference{TProp, TBase}.Value"/> from the <see cref="Reference{TProp,TBase}.Model"/>.</param>
         /// <param name="model">The base object to retrieve the property from.</param>
         /// <returns>The reference object.</returns>
-        public static Reference<TProp, TBase> Bind<TProp, TBase>(this TBase model, Expression<Func<TBase, TProp>> expression)
+        public static Reference<TBase, TProp> Bind<TProp, TBase>(this TBase model, Expression<Func<TBase, TProp>> expression)
             => Create(expression, model);
     }
 
     /// <summary>
     /// An <see cref="IReference{TProp}"/> implementation which takes a getter expression to extract a <see cref="TProp"/> property or field from the provided <see cref="Reference{TProp,TBase}.Model"/>.
     /// </summary>
-    /// <typeparam name="TProp">The type of the resulting value.</typeparam>
     /// <typeparam name="TBase">The type of the base object.</typeparam>
+    /// <typeparam name="TProp">The type of the resulting value.</typeparam>
     [DebuggerDisplay("{" + nameof(Value) + "}")]
-    public class Reference<TProp, TBase> : IReference<TProp>, IReference
+    public class Reference<TBase, TProp> : IModelReference<TBase, TProp>, IModelReference<TBase>, IModelReference
     {
         private readonly Lazy<Func<TBase, TProp>>  GetterFunction;
         private readonly Lazy<Action<TBase, TProp>> SetterFunction;
@@ -163,7 +163,16 @@ namespace Reference
         Object IReference.ValueOrDefault
             => ValueOrDefault;
 
-        public static implicit operator TProp(Reference<TProp, TBase> reference)
+        /// <summary>
+        /// <inheritdoc cref="IModelReference.Model"/>
+        /// </summary>
+        Object IModelReference.Model
+        {
+            get { return Model; }
+            set { Model = (TBase)value; }
+        }
+
+        public static implicit operator TProp(Reference<TBase, TProp> reference)
             => reference.Value;
 
         private TProp Getter(TBase model)

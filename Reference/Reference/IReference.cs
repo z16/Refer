@@ -3,9 +3,9 @@ using System;
 namespace Reference
 {
     /// <summary>
-    /// Represents a reference to a <see cref="TProp"/> object.
+    /// Represents a <see cref="TProp"/> reference.
     /// </summary>
-    /// <typeparam name="TProp">The type of the resulting value.</typeparam>
+    /// <typeparam name="TProp">The type of the referenced value.</typeparam>
     public interface IReference<TProp>
     {
         /// <summary>
@@ -43,5 +43,32 @@ namespace Reference
         /// Gets the value. Returns null if it cannot be evaluated.
         /// </summary>
         Object ValueOrDefault { get; }
+    }
+
+    /// <summary>
+    /// Represents a <see cref="TProp"/> reference based on a <see cref="TBase"/> object.
+    /// </summary>
+    /// <typeparam name="TBase">The type of the base object.</typeparam>
+    /// <typeparam name="TProp">The type of the referenced value.</typeparam>
+    public interface IModelReference<TBase, TProp> : IReference<TProp>
+    {
+        TBase Model { get; set; }
+    }
+
+    /// <summary>
+    /// Represents a reference based on a <see cref="TBase"/> object.
+    /// </summary>
+    /// <typeparam name="TBase">The type of the base object.</typeparam>
+    public interface IModelReference<TBase> : IReference
+    {
+        TBase Model { get; set; }
+    }
+
+    /// <summary>
+    /// Represents a reference based on a object.
+    /// </summary>
+    public interface IModelReference : IReference
+    {
+        Object Model { get; set; }
     }
 }
