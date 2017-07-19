@@ -1,11 +1,10 @@
-﻿using System;
+using System;
 
 namespace Reference
 {
     /// <summary>
     /// Describes an error during the evaluation of the path of the reference.
     /// </summary>
-    [Serializable]
     public class InvalidReferenceException : Exception
     {
         internal InvalidReferenceException()
