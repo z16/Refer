@@ -1,6 +1,6 @@
 using System;
 
-namespace Reference
+namespace Refer
 {
     /// <summary>
     /// Describes an error during the evaluation of the path of the reference.

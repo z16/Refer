@@ -1,6 +1,6 @@
 using System;
 
-namespace Reference
+namespace Refer
 {
     /// <summary>
     /// Represents a <see cref="TProp"/> reference.

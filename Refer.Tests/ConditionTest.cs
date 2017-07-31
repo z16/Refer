@@ -1,7 +1,7 @@
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Reference.Tests
+namespace Refer.Tests
 {
     [TestClass]
     public class ConditionTest

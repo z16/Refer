@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics;
 using System.Linq.Expressions;
 
-namespace Reference
+namespace Refer
 {
     /// <summary>
     /// Static methods.
@@ -52,7 +52,7 @@ namespace Reference
         /// <summary>
         /// The condition's evaluted value. Throws an <see cref="InvalidReferenceException"/> if it cannot be evaluated.
         /// </summary>
-        public new bool Value
+        public new Boolean Value
             => base.Value;
     }
 }

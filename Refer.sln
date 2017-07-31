@@ -1,11 +1,10 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.16
+VisualStudioVersion = 15.0.26430.15
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reference.Tests", "Reference.Tests\Reference.Tests.csproj", "{8DDF35B4-5FFF-4984-B23B-2AC9D9D8B75D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Refer.Tests", "Refer.Tests\Refer.Tests.csproj", "{8DDF35B4-5FFF-4984-B23B-2AC9D9D8B75D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reference", "Reference\Reference.csproj", "{B8395385-83F6-4D40-AB32-20F4EB8C7448}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Refer", "Refer\Refer.csproj", "{B8395385-83F6-4D40-AB32-20F4EB8C7448}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
