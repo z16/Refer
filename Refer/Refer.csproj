@@ -1,7 +1,19 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard1.4</TargetFramework>
+    <PackageId>Refer.z16</PackageId>
+    <PackageVersion>1.0.0</PackageVersion>
+    <Authors>z16</Authors>
+    <Description>A library to create dynamic reference to nested code structures.</Description>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageReleaseNotes>Initial release</PackageReleaseNotes>
+    <Copyright>This project is in the public domain according to CC0-1.0.</Copyright>
+    <PackageTags>reference ref</PackageTags>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>Refer.xml</DocumentationFile>
   </PropertyGroup>
 
 </Project>
