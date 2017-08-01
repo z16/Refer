@@ -52,6 +52,9 @@ namespace Refer
     /// <typeparam name="TProp">The type of the referenced value.</typeparam>
     public interface IModelReference<TBase, TProp> : IReference<TProp>
     {
+        /// <summary>
+        /// The base object to apply the reference to.
+        /// </summary>
         TBase Model { get; set; }
     }
 
@@ -61,6 +64,9 @@ namespace Refer
     /// <typeparam name="TBase">The type of the base object.</typeparam>
     public interface IModelReference<TBase> : IReference
     {
+        /// <summary>
+        /// <inheritdoc cref="IModelReference{TBase, TProp}.Model"/>
+        /// </summary>
         TBase Model { get; set; }
     }
 
@@ -69,6 +75,9 @@ namespace Refer
     /// </summary>
     public interface IModelReference : IReference
     {
+        /// <summary>
+        /// <inheritdoc cref="IModelReference{TBase, TProp}.Model"/>
+        /// </summary>
         Object Model { get; set; }
     }
 }
