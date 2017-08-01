@@ -1,0 +1,203 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Refer</name>
+    </assembly>
+    <members>
+        <member name="T:Refer.Condition">
+            <summary>
+            Static methods.
+            </summary>
+        </member>
+        <member name="M:Refer.Condition.Create``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},``0)">
+            <summary>
+            Creates a condition, based on the provided <see cref="!:model"/>.
+            </summary>
+            <typeparam name="TBase">The type of the base object.</typeparam>
+            <param name="expression">An expression that determines a boolean <see cref="P:Refer.Condition`1.Value"/> from the <see cref="P:Refer.Reference`2.Model"/>.</param>
+            <param name="model">The base object to evalute the condition from.</param>
+            <returns>The condition object.</returns>
+        </member>
+        <member name="M:Refer.Condition.BindCondition``1(``0,System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
+            <summary>
+            Creates a condition, based on the provided <see cref="!:model"/>.
+            </summary>
+            <typeparam name="TBase">The type of the base object.</typeparam>
+            <param name="expression">An expression that determines a boolean <see cref="P:Refer.Condition`1.Value"/> from the <see cref="P:Refer.Reference`2.Model"/>.</param>
+            <param name="model">The base object to evalute the condition from.</param>
+            <returns>The condition object.</returns>
+        </member>
+        <member name="T:Refer.Condition`1">
+            <summary>
+            A wrapper to calculate a boolean condition based on the provided <see cref="!:Condition&lt;TBase&gt;.Model"/>.
+            </summary>
+            <typeparam name="TBase">The type of the base object.</typeparam>
+        </member>
+        <member name="M:Refer.Condition`1.#ctor(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},`0)">
+            <summary>
+            Creates a condition, based on the provided <see cref="!:model"/>.
+            </summary>
+            <typeparam name="TBase">The type of the base object.</typeparam>
+            <param name="expression">An expression that determines a boolean <see cref="P:Refer.Condition`1.Value"/> from the <see cref="P:Refer.Reference`2.Model"/>.</param>
+            <param name="model">The base object to evalute the condition from.</param>
+            <returns>The condition object.</returns>
+        </member>
+        <member name="P:Refer.Condition`1.Value">
+            <summary>
+            The condition's evaluted value. Throws an <see cref="T:Refer.InvalidReferenceException"/> if it cannot be evaluated.
+            </summary>
+        </member>
+        <member name="T:Refer.InvalidReferenceException">
+            <summary>
+            Describes an error during the evaluation of the path of the reference.
+            </summary>
+        </member>
+        <member name="T:Refer.IReference`1">
+            <summary>
+            Represents a <see cref="!:TProp"/> reference.
+            </summary>
+            <typeparam name="TProp">The type of the referenced value.</typeparam>
+        </member>
+        <member name="P:Refer.IReference`1.Valid">
+            <summary>
+            Gets whether or not the <see cref="P:Refer.IReference`1.Value"/> can be evaluated.
+            </summary>
+        </member>
+        <member name="P:Refer.IReference`1.Value">
+            <summary>
+            Gets or sets the value. Throws an <see cref="T:Refer.InvalidReferenceException"/> if it cannot be evaluated.
+            </summary>
+        </member>
+        <member name="P:Refer.IReference`1.ValueOrDefault">
+            <summary>
+            Gets the value. Returns the default <see cref="!:TProp"/> if it cannot be evaluated.
+            </summary>
+        </member>
+        <member name="T:Refer.IReference">
+            <summary>
+            Represents a reference.
+            </summary>
+        </member>
+        <member name="P:Refer.IReference.Valid">
+            <summary>
+            Gets whether or not the <see cref="P:Refer.IReference.Value"/> can be evaluated.
+            </summary>
+        </member>
+        <member name="P:Refer.IReference.Value">
+            <summary>
+            Gets or sets the value. Throws an <see cref="T:Refer.InvalidReferenceException"/> if it cannot be evaluated.
+            </summary>
+        </member>
+        <member name="P:Refer.IReference.ValueOrDefault">
+            <summary>
+            Gets the value. Returns null if it cannot be evaluated.
+            </summary>
+        </member>
+        <member name="T:Refer.IModelReference`2">
+            <summary>
+            Represents a <see cref="!:TProp"/> reference based on a <see cref="!:TBase"/> object.
+            </summary>
+            <typeparam name="TBase">The type of the base object.</typeparam>
+            <typeparam name="TProp">The type of the referenced value.</typeparam>
+        </member>
+        <member name="T:Refer.IModelReference`1">
+            <summary>
+            Represents a reference based on a <see cref="!:TBase"/> object.
+            </summary>
+            <typeparam name="TBase">The type of the base object.</typeparam>
+        </member>
+        <member name="T:Refer.IModelReference">
+            <summary>
+            Represents a reference based on a object.
+            </summary>
+        </member>
+        <member name="T:Refer.Reference">
+            <summary>
+            Static methods.
+            </summary>
+        </member>
+        <member name="M:Refer.Reference.Create``2(System.Linq.Expressions.Expression{System.Func{``0,``1}},``0)">
+            <summary>
+            Creates a reference to a <see cref="!:TProp"/> field or property, based on the provided <see cref="!:model"/>.
+            </summary>
+            <typeparam name="TProp">The type of the resulting value.</typeparam>
+            <typeparam name="TBase">The type of the base object.</typeparam>
+            <param name="expression">A getter that retrieves the <see cref="P:Refer.Reference`2.Value"/> from the <see cref="P:Refer.Reference`2.Model"/>.</param>
+            <param name="model">The base object to retrieve the property from.</param>
+            <returns>The reference object.</returns>
+        </member>
+        <member name="M:Refer.Reference.Bind``2(``0,System.Linq.Expressions.Expression{System.Func{``0,``1}})">
+            <summary>
+            Creates a reference to a <see cref="!:TProp"/> field or property, based on <see cref="!:model"/> it is called on.
+            </summary>
+            <typeparam name="TProp">The type of the resulting value.</typeparam>
+            <typeparam name="TBase">The type of the base object.</typeparam>
+            <param name="expression">A getter that retrieves the <see cref="P:Refer.Reference`2.Value"/> from the <see cref="P:Refer.Reference`2.Model"/>.</param>
+            <param name="model">The base object to retrieve the property from.</param>
+            <returns>The reference object.</returns>
+        </member>
+        <member name="T:Refer.Reference`1">
+            <summary>
+            Static methods.
+            </summary>
+        </member>
+        <member name="M:Refer.Reference`1.Create``1(System.Linq.Expressions.Expression{System.Func{`0,``0}},`0)">
+            <summary>
+            Creates a reference to a <see cref="!:TProp"/> field or property, based on the provided <see cref="!:model"/>.
+            </summary>
+            <typeparam name="TProp">The type of the resulting value.</typeparam>
+            <param name="expression">A getter that retrieves the <see cref="P:Refer.Reference`2.Value"/> from the <see cref="P:Refer.Reference`2.Model"/>.</param>
+            <param name="model">The base object to retrieve the property from.</param>
+            <returns>The reference object.</returns>
+        </member>
+        <member name="T:Refer.Reference`2">
+            <summary>
+            An <see cref="T:Refer.IReference`1"/> implementation which takes a getter expression to extract a <see cref="!:TProp"/> property or field from the provided <see cref="P:Refer.Reference`2.Model"/>.
+            </summary>
+            <typeparam name="TBase">The type of the base object.</typeparam>
+            <typeparam name="TProp">The type of the resulting value.</typeparam>
+        </member>
+        <member name="P:Refer.Reference`2.Model">
+            <summary>
+            Gets or sets the base model to base the reference on.
+            </summary>
+        </member>
+        <member name="M:Refer.Reference`2.#ctor(System.Linq.Expressions.Expression{System.Func{`0,`1}},`0)">
+            <summary>
+            Creates a new reference based on the provided <see cref="!:expression"/> and optional <see cref="!:model"/>.
+            </summary>
+            <param name="expression">A getter that retrieves the <see cref="P:Refer.Reference`2.Value"/> from the <see cref="P:Refer.Reference`2.Model"/>.</param>
+            <param name="model">The base object to retrieve the property from.</param>
+        </member>
+        <member name="P:Refer.Reference`2.Valid">
+            <summary>
+            <inheritdoc cref="P:Refer.IReference`1.Valid"/>
+            </summary>
+        </member>
+        <member name="P:Refer.Reference`2.Value">
+            <summary>
+            <inheritdoc cref="P:Refer.IReference`1.Value"/>
+            </summary>
+        </member>
+        <member name="P:Refer.Reference`2.ValueOrDefault">
+            <summary>
+            <inheritdoc cref="P:Refer.IReference`1.ValueOrDefault"/>
+            </summary>
+        </member>
+        <member name="P:Refer.Reference`2.Refer#IReference#Value">
+            <summary>
+            <inheritdoc cref="P:Refer.IReference.Value"/>
+            </summary>
+        </member>
+        <member name="P:Refer.Reference`2.Refer#IReference#ValueOrDefault">
+            <summary>
+            <inheritdoc cref="P:Refer.IReference.ValueOrDefault"/>
+            </summary>
+        </member>
+        <member name="P:Refer.Reference`2.Refer#IModelReference#Model">
+            <summary>
+            <inheritdoc cref="P:Refer.IModelReference.Model"/>
+            </summary>
+        </member>
+    </members>
+</doc>
