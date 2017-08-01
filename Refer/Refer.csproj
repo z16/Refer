@@ -3,11 +3,11 @@
   <PropertyGroup>
     <TargetFramework>netstandard1.0</TargetFramework>
     <PackageId>Refer.z16</PackageId>
-    <PackageVersion>1.0.0</PackageVersion>
+    <PackageVersion>1.0.1</PackageVersion>
     <Authors>z16</Authors>
     <Description>A library to create dynamic reference to nested code structures.</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <PackageReleaseNotes>Initial release</PackageReleaseNotes>
+    <PackageReleaseNotes>Lowered to .NET Standard 1.0 target.</PackageReleaseNotes>
     <Copyright>This project is in the public domain according to CC0-1.0.</Copyright>
     <PackageTags>reference ref</PackageTags>
   </PropertyGroup>
