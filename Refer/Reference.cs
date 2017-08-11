@@ -31,9 +31,6 @@ namespace Refer
         /// <returns>The reference object.</returns>
         public static Reference<TBase, TProp> Bind<TBase, TProp>(this TBase model, Expression<Func<TBase, TProp>> expression)
             => Create<TBase, TProp>(expression, model);
-
-        public static Reference<Object, TProp> ToReference<TProp>(this TProp property)
-            => Create<Object, TProp>((_) => property);
     }
 
     /// <summary>
@@ -86,28 +83,28 @@ namespace Refer
                 var value = Expression.Parameter(typeof(TProp), "value");
                 var assignment = Expression.Assign(CreateSetterAssignmentTarget(), value);
                 return Expression.Lambda<Action<TBase, TProp>>(assignment, target, value).Compile();
-            }
 
-            Expression CreateSetterAssignmentTarget()
-            {
-                var body = expression.Body;
-
-                var binaryExpression = body as BinaryExpression;
-                if (binaryExpression != null && binaryExpression.NodeType == ExpressionType.ArrayIndex)
+                Expression CreateSetterAssignmentTarget()
                 {
-                    return Expression.ArrayAccess(binaryExpression.Left, binaryExpression.Right);
-                }
+                    var body = expression.Body;
 
-                var methodCallExpression = body as MethodCallExpression;
-                if (methodCallExpression?.Object != null)
-                {
-                    if (methodCallExpression.Method.Name == "get_Item")
+                    var binaryExpression = body as BinaryExpression;
+                    if (binaryExpression != null && binaryExpression.NodeType == ExpressionType.ArrayIndex)
                     {
-                        return Expression.Property(methodCallExpression.Object, "Item", methodCallExpression.Arguments.Single());
+                        return Expression.ArrayAccess(binaryExpression.Left, binaryExpression.Right);
                     }
-                }
 
-                return body;
+                    var methodCallExpression = body as MethodCallExpression;
+                    if (methodCallExpression?.Object != null)
+                    {
+                        if (methodCallExpression.Method.Name == "get_Item")
+                        {
+                            return Expression.Property(methodCallExpression.Object, "Item", methodCallExpression.Arguments.Single());
+                        }
+                    }
+
+                    return body;
+                }
             }
         }
 

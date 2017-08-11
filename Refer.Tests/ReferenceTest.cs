@@ -242,10 +242,10 @@ namespace Refer.Tests
         {
             var indexer = new Indexer();
 
-            var property = indexer.Bind(i => i[null]);
-            Assert.AreEqual(null, property.Value);
-            property.Value = "anything";
-            Assert.AreEqual("anything", property.Value);
+            var reference = indexer.Bind(i => i[null]);
+            Assert.AreEqual(null, reference.Value);
+            reference.Value = "anything";
+            Assert.AreEqual("anything", reference.Value);
         }
 
         [TestMethod]
@@ -253,10 +253,15 @@ namespace Refer.Tests
         {
             var foo = MakeFoo();
 
-            var property = Reference.Create(f => f.Bar.Bazzes[2].Moo, foo);
-            Assert.AreEqual("thrid", property.Value);
-            property.Value = "thriteen";
+            var genericReference = Reference.Create(f => f.Bar.Bazzes[2].Moo, foo);
+            Assert.AreEqual("thrid", genericReference.Value);
+            genericReference.Value = "thriteen";
             Assert.AreEqual("thriteen", foo.Bar.Bazzes[2].Moo);
+
+            var basedReference = Reference<Foo>.Create(f => f.Bar.Bazzes[2].Moo, foo);
+            Assert.AreEqual("thriteen", genericReference.Value);
+            basedReference.Value = "froutheen";
+            Assert.AreEqual("froutheen", foo.Bar.Bazzes[2].Moo);
         }
 
         [TestMethod]
@@ -264,9 +269,9 @@ namespace Refer.Tests
         {
             var foo = MakeFoo();
 
-            var property = foo.Bind(f => f.Bar.Bazzes[3].Moo);
-            Assert.AreEqual("frouth", property.Value);
-            property.Value = "froutheen";
+            var reference = foo.Bind(f => f.Bar.Bazzes[3].Moo);
+            Assert.AreEqual("frouth", reference.Value);
+            reference.Value = "froutheen";
             Assert.AreEqual("froutheen", foo.Bar.Bazzes[3].Moo);
         }
 
@@ -275,9 +280,9 @@ namespace Refer.Tests
         {
             var foo = MakeFoo();
 
-            var property = (IReference)foo.Bind(f => f.Qoo);
-            Assert.AreEqual(15, property.Value);
-            property.Value = 13;
+            var reference = (IReference)foo.Bind(f => f.Qoo);
+            Assert.AreEqual(15, reference.Value);
+            reference.Value = 13;
             Assert.AreEqual(13, foo.Qoo);
         }
 
@@ -287,8 +292,8 @@ namespace Refer.Tests
         {
             var foo = new Foo();
 
-            var property = (IReference)foo.Bind(f => f.Bar.Bazzes[0].Moo);
-            var _ = property.Value;
+            var reference = (IReference)foo.Bind(f => f.Bar.Bazzes[0].Moo);
+            var _ = reference.Value;
         }
 
         [TestMethod]
@@ -297,8 +302,8 @@ namespace Refer.Tests
         {
             var foo = new Foo();
 
-            var property = (IReference)foo.Bind(f => f.Bar.Bazzes[0].Moo);
-            property.Value = 13;
+            var reference = (IReference)foo.Bind(f => f.Bar.Bazzes[0].Moo);
+            reference.Value = 13;
         }
 
         [TestMethod]
@@ -307,8 +312,8 @@ namespace Refer.Tests
         {
             var foo = new Foo();
 
-            var property = (IReference)foo.Bind(f => f.Qoo);
-            property.Value = "test";
+            var reference = (IReference)foo.Bind(f => f.Qoo);
+            reference.Value = "test";
         }
 
         [TestMethod]
@@ -316,8 +321,8 @@ namespace Refer.Tests
         {
             var foo = new Foo();
 
-            var property = (IReference)foo.Bind(f => f.Bar.Bazzes[0].Moo);
-            Assert.AreEqual(null, property.ValueOrDefault);
+            var reference = (IReference)foo.Bind(f => f.Bar.Bazzes[0].Moo);
+            Assert.AreEqual(null, reference.ValueOrDefault);
         }
 
         [TestMethod]
@@ -325,8 +330,8 @@ namespace Refer.Tests
         {
             var foo = new Foo();
 
-            var property = (IReference)foo.Bind(f => f.Bar.Bazzes[0].Moo);
-            Assert.AreEqual(null, property.ValueOrDefault);
+            var reference = (IReference)foo.Bind(f => f.Bar.Bazzes[0].Moo);
+            Assert.AreEqual(null, reference.ValueOrDefault);
         }
 
         [TestMethod]
@@ -334,8 +339,8 @@ namespace Refer.Tests
         {
             var foo = MakeFoo();
 
-            var property = foo.Bind(f => f.Qoo);
-            float value = property;
+            var reference = foo.Bind(f => f.Qoo);
+            float value = reference;
             Assert.AreEqual(15.0f, value);
         }
 
