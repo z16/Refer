@@ -27,14 +27,14 @@ public class Program
                 X = 5,
             },
         };
-        
+
         var reference = foo.Bind(f => f.B.X);
         WriteLine(reference); // 5
-        
+
         float value = reference; // Implicitly converts to its underlying type,
                                  // in this case int, which initializes the float value
         WriteLine(value == 5); // True
-        
+
         reference.Value = 7;
         WriteLine(foo.B.X); // 7
     }
