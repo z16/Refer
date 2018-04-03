@@ -2,7 +2,7 @@ using System;
 
 namespace Refer
 {
-    /// <inheritdoc />
+    /// <inheritdoc/>
     /// <summary>
     /// Describes an error during the evaluation of the path of the reference.
     /// </summary>

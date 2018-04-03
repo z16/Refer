@@ -30,6 +30,7 @@ namespace Refer
             => Create(expression, model);
     }
 
+    /// <inheritdoc/>
     /// <summary>
     /// A wrapper to calculate a boolean condition based on the provided <see cref="Condition{TBase}.Model"/>.
     /// </summary>
@@ -37,6 +38,7 @@ namespace Refer
     [DebuggerDisplay("{" + nameof(Value) + "}")]
     public class Condition<TBase> : Reference<TBase, Boolean>
     {
+        /// <inheritdoc/>
         /// <summary>
         /// Creates a condition, based on the provided <see cref="model"/>.
         /// </summary>
