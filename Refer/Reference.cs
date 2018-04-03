@@ -111,9 +111,7 @@ namespace Refer
             }
         }
 
-        /// <summary>
         /// <inheritdoc cref="IReference{TProp}.Valid"/>
-        /// </summary>
         public Boolean Valid
         {
             get
@@ -130,18 +128,14 @@ namespace Refer
             }
         }
 
-        /// <summary>
         /// <inheritdoc cref="IReference{TProp}.Value"/>
-        /// </summary>
         public TProp Value
         {
             get => Getter(Model);
             set => Setter(Model, value);
         }
 
-        /// <summary>
         /// <inheritdoc cref="IReference{TProp}.ValueOrDefault"/>
-        /// </summary>
         public TProp ValueOrDefault
         {
             get
@@ -157,9 +151,7 @@ namespace Refer
             }
         }
 
-        /// <summary>
         /// <inheritdoc cref="IReference.Value"/>
-        /// </summary>
         Object IReference.Value
         {
             get => Value;
@@ -176,15 +168,11 @@ namespace Refer
             }
         }
 
-        /// <summary>
         /// <inheritdoc cref="IReference.ValueOrDefault"/>
-        /// </summary>
         Object IReference.ValueOrDefault
             => ValueOrDefault;
 
-        /// <summary>
         /// <inheritdoc cref="IModelReference.Model"/>
-        /// </summary>
         Object IModelReference.Model
         {
             get { return Model; }
@@ -193,6 +181,10 @@ namespace Refer
 
         public static implicit operator TProp(Reference<TBase, TProp> reference)
             => reference.Value;
+
+        /// <inheritdoc cref="IReference{TProp}.ValueType"/>
+        public Type ValueType
+            => typeof(TProp);
 
         private TProp Getter(TBase model)
         {

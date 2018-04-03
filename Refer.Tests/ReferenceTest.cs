@@ -34,12 +34,12 @@ namespace Refer.Tests
                 return new Ran(index);
             }
 
-            public override bool Equals(object obj)
+            public override Boolean Equals(Object obj)
             {
                 return (obj as Ran)?.Index == Index;
             }
 
-            public override int GetHashCode()
+            public override Int32 GetHashCode()
             {
                 return Index.GetHashCode();
             }
@@ -342,13 +342,29 @@ namespace Refer.Tests
         [TestMethod]
         public void Reference_IModelReference_Model()
         {
-            var reference = (IModelReference)new Reference<int, int>(i => i + 1);
+            var reference = (IModelReference) new Reference<Int32, Int32>(i => i + 1);
 
             var foo = 3;
             reference.Model = foo;
 
             Assert.AreEqual(4, reference.Value);
             Assert.AreEqual(foo, reference.Model);
+        }
+
+        [TestMethod]
+        public void Reference_IReferenceValueType_Get()
+        {
+            var reference = new Reference<Int32, Int32>(i => i + 1);
+
+            Assert.AreEqual(typeof(Int32), reference.ValueType);
+        }
+
+        [TestMethod]
+        public void Reference_IModelReferenceValueType_Get()
+        {
+            var reference = (IModelReference) new Reference<Int32, Int32>(i => i + 1);
+
+            Assert.AreEqual(typeof(Int32), reference.ValueType);
         }
     }
 }

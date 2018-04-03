@@ -22,6 +22,11 @@ namespace Refer
         /// Gets the value. Returns the default <see cref="TProp"/> if it cannot be evaluated.
         /// </summary>
         TProp ValueOrDefault { get; }
+
+        /// <summary>
+        /// Gets the type of the <see cref="Value"/>. Always equal to <see cref="TProp"/>.
+        /// </summary>
+        Type ValueType { get; }
     }
 
     /// <summary>
@@ -43,10 +48,16 @@ namespace Refer
         /// Gets the value. Returns null if it cannot be evaluated.
         /// </summary>
         Object ValueOrDefault { get; }
+
+        /// <summary>
+        /// Gets the type of the <see cref="Value"/>.
+        /// </summary>
+        Type ValueType { get; }
     }
 
+    /// <inheritdoc />
     /// <summary>
-    /// Represents a <see cref="TProp"/> reference based on a <see cref="TBase"/> object.
+    /// Represents a <see cref="!:TProp" /> reference based on a <see cref="!:TBase" /> object.
     /// </summary>
     /// <typeparam name="TBase">The type of the base object.</typeparam>
     /// <typeparam name="TProp">The type of the referenced value.</typeparam>
@@ -58,8 +69,9 @@ namespace Refer
         TBase Model { get; set; }
     }
 
+    /// <inheritdoc />
     /// <summary>
-    /// Represents a reference based on a <see cref="TBase"/> object.
+    /// Represents a reference based on a <see cref="!:TBase" /> object.
     /// </summary>
     /// <typeparam name="TBase">The type of the base object.</typeparam>
     public interface IModelReference<TBase> : IReference
@@ -70,6 +82,7 @@ namespace Refer
         TBase Model { get; set; }
     }
 
+    /// <inheritdoc />
     /// <summary>
     /// Represents a reference based on a object.
     /// </summary>
