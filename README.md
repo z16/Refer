@@ -1,11 +1,11 @@
-# Reference
+# Refer
 
 This library aims to manage references to fields or properties nested in other structures, similar in its idea to the `ref` keyword. Unlike with the `ref` keyword the wrapped property or field can be dynamically reassigned to a different base object, so the binding is not to a place in memory, but to a path pointing inside a data structure, which is itself similar to the concept of lenses.
 
 ## Example
 
 ```c#
-using Reference;
+using Refer;
 using static System.Console;
 
 public class Bar
