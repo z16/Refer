@@ -100,15 +100,30 @@
             <typeparam name="TBase">The type of the base object.</typeparam>
             <typeparam name="TProp">The type of the referenced value.</typeparam>
         </member>
+        <member name="P:Refer.IModelReference`2.Model">
+            <summary>
+            The base object to apply the reference to.
+            </summary>
+        </member>
         <member name="T:Refer.IModelReference`1">
             <summary>
             Represents a reference based on a <see cref="!:TBase"/> object.
             </summary>
             <typeparam name="TBase">The type of the base object.</typeparam>
         </member>
+        <member name="P:Refer.IModelReference`1.Model">
+            <summary>
+            <inheritdoc cref="P:Refer.IModelReference`2.Model"/>
+            </summary>
+        </member>
         <member name="T:Refer.IModelReference">
             <summary>
             Represents a reference based on a object.
+            </summary>
+        </member>
+        <member name="P:Refer.IModelReference.Model">
+            <summary>
+            <inheritdoc cref="P:Refer.IModelReference`2.Model"/>
             </summary>
         </member>
         <member name="T:Refer.Reference">
