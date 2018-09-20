@@ -67,6 +67,28 @@ namespace Refer
         /// The base object to apply the reference to.
         /// </summary>
         TBase Model { get; set; }
+
+        /// <summary>
+        /// Gets the value based on the provided model.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        TProp GetValue(TBase model);
+
+        /// <summary>
+        /// Gets the value based on the provided model. Returns the default value for <see cref="TProp"/> on error.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        TProp GetValueOrDefault(TBase model);
+
+        /// <summary>
+        /// Sets the value based on the provided model.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        void SetValue(TBase model, TProp value);
     }
 
     /// <inheritdoc/>
@@ -76,10 +98,17 @@ namespace Refer
     /// <typeparam name="TBase">The type of the base object.</typeparam>
     public interface IModelReference<TBase> : IReference
     {
-        /// <summary>
         /// <inheritdoc cref="IModelReference{TBase, TProp}.Model"/>
-        /// </summary>
         TBase Model { get; set; }
+
+        /// <inheritdoc cref="IModelReference{TBase, TProp}.GetValue"/>
+        Object GetValue(TBase model);
+
+        /// <inheritdoc cref="IModelReference{TBase, TProp}.GetValueOrDefault"/>
+        Object GetValueOrDefault(TBase model);
+
+        /// <inheritdoc cref="IModelReference{TBase, TProp}.SetValue"/>
+        void SetValue(TBase model, Object value);
     }
 
     /// <inheritdoc/>
@@ -88,9 +117,16 @@ namespace Refer
     /// </summary>
     public interface IModelReference : IReference
     {
-        /// <summary>
         /// <inheritdoc cref="IModelReference{TBase, TProp}.Model"/>
-        /// </summary>
         Object Model { get; set; }
+
+        /// <inheritdoc cref="IModelReference{TBase, TProp}.GetValue"/>
+        Object GetValue(Object model);
+
+        /// <inheritdoc cref="IModelReference{TBase, TProp}.GetValueOrDefault"/>
+        Object GetValueOrDefault(Object model);
+
+        /// <inheritdoc cref="IModelReference{TBase, TProp}.SetValue"/>
+        void SetValue(Object model, Object value);
     }
 }

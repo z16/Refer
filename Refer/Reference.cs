@@ -30,7 +30,7 @@ namespace Refer
         /// <param name="model">The base object to retrieve the property from.</param>
         /// <returns>The reference object.</returns>
         public static Reference<TBase, TProp> Bind<TBase, TProp>(this TBase model, Expression<Func<TBase, TProp>> expression)
-            => Create<TBase, TProp>(expression, model);
+            => Create(expression, model);
     }
 
     /// <summary>
@@ -95,12 +95,9 @@ namespace Refer
                     }
 
                     var methodCallExpression = body as MethodCallExpression;
-                    if (methodCallExpression?.Object != null)
+                    if (methodCallExpression?.Object != null && methodCallExpression.Method.Name == "get_Item")
                     {
-                        if (methodCallExpression.Method.Name == "get_Item")
-                        {
-                            return Expression.Property(methodCallExpression.Object, "Item", methodCallExpression.Arguments.Single());
-                        }
+                        return Expression.Property(methodCallExpression.Object, "Item", methodCallExpression.Arguments.Single());
                     }
 
                     return body;
@@ -128,42 +125,20 @@ namespace Refer
         /// <inheritdoc cref="IReference{TProp}.Value"/>
         public TProp Value
         {
-            get => Getter(Model);
-            set => Setter(Model, value);
-        }
-
-        /// <inheritdoc cref="IReference{TProp}.ValueOrDefault"/>
-        public TProp ValueOrDefault
-        {
-            get
-            {
-                try
-                {
-                    return Getter(Model);
-                }
-                catch (Exception)
-                {
-                    return default(TProp);
-                }
-            }
+            get => GetValue(Model);
+            set => SetValue(Model, value);
         }
 
         /// <inheritdoc cref="IReference.Value"/>
         Object IReference.Value
         {
             get => Value;
-            set
-            {
-                try
-                {
-                    Value = (TProp) value;
-                }
-                catch (InvalidCastException ex)
-                {
-                    throw new InvalidReferenceException("Setter value of incorrect type.", ex);
-                }
-            }
+            set => Value = (TProp) value;
         }
+
+        /// <inheritdoc cref="IReference{TProp}.ValueOrDefault"/>
+        public TProp ValueOrDefault
+            => GetValueOrDefault(Model);
 
         /// <inheritdoc cref="IReference.ValueOrDefault"/>
         Object IReference.ValueOrDefault
@@ -173,8 +148,44 @@ namespace Refer
         Object IModelReference.Model
         {
             get { return Model; }
-            set { Model = (TBase)value; }
+            set { Model = (TBase) value; }
         }
+
+        public TProp GetValue(TBase model)
+            => Getter(model);
+
+        public Object GetValue(Object model)
+            => GetValue((TBase) model);
+
+        object IModelReference<TBase>.GetValue(TBase model)
+            => GetValue(model);
+
+        public TProp GetValueOrDefault(TBase model)
+        {
+            try
+            {
+                return Getter(model);
+            }
+            catch (InvalidReferenceException)
+            {
+                return default(TProp);
+            }
+        }
+
+        public Object GetValueOrDefault(Object model)
+            => GetValueOrDefault((TBase) model);
+
+        Object IModelReference<TBase>.GetValueOrDefault(TBase model)
+            => GetValueOrDefault(model);
+
+        public void SetValue(TBase model, TProp value)
+            => Setter(model, value);
+
+        public void SetValue(TBase model, Object value)
+            => SetValue(model, (TProp) value);
+
+        public void SetValue(Object model, Object value)
+            => SetValue((TBase) model, value);
 
         public static implicit operator TProp(Reference<TBase, TProp> reference)
             => reference.Value;

@@ -12,14 +12,17 @@ namespace Refer.Tests
         {
             internal String Moo { get; set; }
         }
+
         private class Bar
         {
             internal Baz[] Bazzes { get; set; }
         }
+
         private class Doo
         {
             internal Int32 Daz { get; set; }
         }
+
         private class Ran
         {
             private Int32 Index { get; }
@@ -44,10 +47,12 @@ namespace Refer.Tests
                 return Index.GetHashCode();
             }
         }
+
         private class Roo
         {
             internal Double Raz { get; set; }
         }
+
         private class Foo
         {
             internal Bar Bar { get; set; }
@@ -88,11 +93,9 @@ namespace Refer.Tests
 
         private class Indexer
         {
-            // ReSharper disable once UnusedParameter.Local
             internal Object this[Object _]
             {
                 get => Value;
-                // ReSharper disable once UnusedMember.Local
                 set => Value = value;
             }
 
@@ -102,6 +105,7 @@ namespace Refer.Tests
         private static void CheckValidGet<TProp>(IReference<TProp> reference, TProp control)
         {
             Assert.IsTrue(reference.Valid);
+            Assert.IsTrue(((IReference) reference).Valid);
             Assert.AreEqual(control, reference.ValueOrDefault);
             Assert.AreEqual(control, reference.Value);
         }
@@ -115,7 +119,7 @@ namespace Refer.Tests
                 var value = reference.Value;
                 Assert.Fail($"Expected to throw: {reference} -> {value}");
             }
-            catch(InvalidReferenceException)
+            catch (InvalidReferenceException)
             {
             }
         }
@@ -133,7 +137,7 @@ namespace Refer.Tests
                 reference.Value = value;
                 Assert.Fail($"Expected to throw: {reference} -> {reference.Value}");
             }
-            catch(InvalidReferenceException)
+            catch (InvalidReferenceException)
             {
             }
         }
@@ -280,7 +284,7 @@ namespace Refer.Tests
         {
             var foo = MakeFoo();
 
-            var reference = (IReference)foo.Bind(f => f.Qoo);
+            var reference = (IReference) foo.Bind(f => f.Qoo);
             Assert.AreEqual(15, reference.Value);
             reference.Value = 13;
             Assert.AreEqual(13, foo.Qoo);
@@ -292,27 +296,27 @@ namespace Refer.Tests
         {
             var foo = new Foo();
 
-            var reference = (IReference)foo.Bind(f => f.Bar.Bazzes[0].Moo);
+            var reference = (IReference) foo.Bind(f => f.Bar.Bazzes[0].Moo);
             var _ = reference.Value;
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidReferenceException), "Reference could not be set.")]
+        [ExpectedException(typeof(InvalidCastException))]
         public void Reference_IReferenceValue_Set_Invalid()
         {
             var foo = new Foo();
 
-            var reference = (IReference)foo.Bind(f => f.Bar.Bazzes[0].Moo);
+            var reference = (IReference) foo.Bind(f => f.Bar.Bazzes[0].Moo);
             reference.Value = 13;
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidReferenceException), "Setter value of incorrect type.")]
+        [ExpectedException(typeof(InvalidCastException))]
         public void Reference_IReferenceValue_Set_InvalidCast()
         {
             var foo = new Foo();
 
-            var reference = (IReference)foo.Bind(f => f.Qoo);
+            var reference = (IReference) foo.Bind(f => f.Qoo);
             reference.Value = "test";
         }
 
@@ -321,7 +325,7 @@ namespace Refer.Tests
         {
             var foo = new Foo();
 
-            var reference = (IReference)foo.Bind(f => f.Bar.Bazzes[0].Moo);
+            var reference = (IReference) foo.Bind(f => f.Bar.Bazzes[0].Moo);
             Assert.AreEqual(null, reference.ValueOrDefault);
         }
 
@@ -330,7 +334,7 @@ namespace Refer.Tests
         {
             var foo = new Foo();
 
-            var reference = (IReference)foo.Bind(f => f.Bar.Bazzes[0].Moo);
+            var reference = (IReference) foo.Bind(f => f.Bar.Bazzes[0].Moo);
             Assert.AreEqual(null, reference.ValueOrDefault);
         }
 
@@ -354,22 +358,103 @@ namespace Refer.Tests
 
             Assert.AreEqual(4, reference.Value);
             Assert.AreEqual(foo, reference.Model);
+
+            var bar = 6;
+            var referenceBase = (IModelReference<Int32>) reference;
+            referenceBase.Model = bar;
+
+            Assert.AreEqual(7, referenceBase.Value);
+            Assert.AreEqual(bar, referenceBase.Model);
+
+            var baz = -1;
+            var referenceBaseProp = (IModelReference<Int32, Int32>) reference;
+            referenceBaseProp.Model = baz;
+
+            Assert.AreEqual(0, referenceBaseProp.Value);
+            Assert.AreEqual(baz, referenceBaseProp.Model);
         }
 
         [TestMethod]
-        public void Reference_IReferenceValueType_Get()
+        public void Reference_GetValue()
+        {
+            var reference = new Reference<Int32, Int32>(i => i + 1);
+
+            Assert.AreEqual(4, reference.GetValue(3));
+            Assert.AreEqual(4, ((IModelReference) reference).GetValue(3));
+            Assert.AreEqual(4, ((IModelReference<Int32>) reference).GetValue(3));
+            Assert.AreEqual(4, ((IModelReference<Int32, Int32>) reference).GetValue(3));
+        }
+
+        [TestMethod]
+        public void Reference_GetValueOrDefault_Valid()
+        {
+            var reference = new Reference<Int32, Int32>(i => i + 1);
+
+            Assert.AreEqual(4, reference.GetValueOrDefault(3));
+            Assert.AreEqual(4, ((IModelReference) reference).GetValueOrDefault(3));
+            Assert.AreEqual(4, ((IModelReference<Int32>) reference).GetValueOrDefault(3));
+            Assert.AreEqual(4, ((IModelReference<Int32, Int32>) reference).GetValueOrDefault(3));
+        }
+
+        [TestMethod]
+        public void Reference_GetValueOrDefault_Invalid()
+        {
+            var reference = new Reference<Int32, Int32>(i => i + ((Int32?) null).Value);
+
+            Assert.AreEqual(0, reference.GetValueOrDefault(3));
+            Assert.AreEqual(0, ((IModelReference) reference).GetValueOrDefault(3));
+            Assert.AreEqual(0, ((IModelReference<Int32>) reference).GetValueOrDefault(3));
+            Assert.AreEqual(0, ((IModelReference<Int32, Int32>) reference).GetValueOrDefault(3));
+        }
+
+        [TestMethod]
+        public void Reference_SetValue()
+        {
+            var foo = new Foo()
+            {
+                Qoo = 3,
+            };
+
+            var reference = new Reference<Foo, Int32>(f => f.Qoo);
+            Assert.AreEqual(3, foo.Qoo);
+            reference.SetValue(foo, 4);
+            Assert.AreEqual(4, foo.Qoo);
+
+            var bar = new Foo()
+            {
+                Qoo = 1,
+            };
+
+            reference.Model = bar;
+            Assert.AreEqual(1, bar.Qoo);
+            reference.SetValue(foo, 7);
+            Assert.AreEqual(1, bar.Qoo);
+            Assert.AreEqual(7, foo.Qoo);
+
+            ((IModelReference) reference).SetValue(foo, 7);
+            Assert.AreEqual(1, bar.Qoo);
+            Assert.AreEqual(7, foo.Qoo);
+
+            ((IModelReference<Foo>) reference).SetValue(foo, 7);
+            Assert.AreEqual(1, bar.Qoo);
+            Assert.AreEqual(7, foo.Qoo);
+
+            ((IModelReference<Foo, Int32>) reference).SetValue(foo, 7);
+            Assert.AreEqual(1, bar.Qoo);
+            Assert.AreEqual(7, foo.Qoo);
+        }
+
+        [TestMethod]
+        public void Reference_ReferenceValueType_Get()
         {
             var reference = new Reference<Int32, Int32>(i => i + 1);
 
             Assert.AreEqual(typeof(Int32), reference.ValueType);
-        }
-
-        [TestMethod]
-        public void Reference_IModelReferenceValueType_Get()
-        {
-            var reference = (IModelReference) new Reference<Int32, Int32>(i => i + 1);
-
-            Assert.AreEqual(typeof(Int32), reference.ValueType);
+            Assert.AreEqual(typeof(Int32), ((IReference) reference).ValueType);
+            Assert.AreEqual(typeof(Int32), ((IReference<Int32>) reference).ValueType);
+            Assert.AreEqual(typeof(Int32), ((IModelReference) reference).ValueType);
+            Assert.AreEqual(typeof(Int32), ((IModelReference<Int32>) reference).ValueType);
+            Assert.AreEqual(typeof(Int32), ((IModelReference<Int32, Int32>) reference).ValueType);
         }
     }
 }
