@@ -263,9 +263,14 @@ namespace Refer.Tests
             Assert.AreEqual("thriteen", foo.Bar.Bazzes[2].Moo);
 
             var basedReference = Reference<Foo>.Create(f => f.Bar.Bazzes[2].Moo, foo);
-            Assert.AreEqual("thriteen", genericReference.Value);
+            Assert.AreEqual("thriteen", basedReference.Value);
             basedReference.Value = "froutheen";
             Assert.AreEqual("froutheen", foo.Bar.Bazzes[2].Moo);
+
+            var basedPropertyReference = Reference<Foo, String>.Create(f => f.Bar.Bazzes[2].Moo, foo);
+            Assert.AreEqual("froutheen", basedPropertyReference.Value);
+            basedPropertyReference.Value = "ffitheen";
+            Assert.AreEqual("ffitheen", foo.Bar.Bazzes[2].Moo);
         }
 
         [TestMethod]

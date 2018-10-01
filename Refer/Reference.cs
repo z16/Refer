@@ -6,50 +6,6 @@ using System.Linq.Expressions;
 namespace Refer
 {
     /// <summary>
-    /// Static methods.
-    /// </summary>
-    public static class Reference
-    {
-        /// <summary>
-        /// Creates a reference to a <see cref="TProp"/> field or property, based on the provided <see cref="model"/>.
-        /// </summary>
-        /// <typeparam name="TProp">The type of the resulting value.</typeparam>
-        /// <typeparam name="TBase">The type of the base object.</typeparam>
-        /// <param name="expression">A getter that retrieves the <see cref="Reference{TProp, TBase}.Value"/> from the <see cref="Reference{TProp,TBase}.Model"/>.</param>
-        /// <param name="model">The base object to retrieve the property from.</param>
-        /// <returns>The reference object.</returns>
-        public static Reference<TBase, TProp> Create<TBase, TProp>(Expression<Func<TBase, TProp>> expression, TBase model = default(TBase))
-            => new Reference<TBase, TProp>(expression, model);
-
-        /// <summary>
-        /// Creates a reference to a <see cref="TProp"/> field or property, based on <see cref="model"/> it is called on.
-        /// </summary>
-        /// <typeparam name="TProp">The type of the resulting value.</typeparam>
-        /// <typeparam name="TBase">The type of the base object.</typeparam>
-        /// <param name="expression">A getter that retrieves the <see cref="Reference{TProp, TBase}.Value"/> from the <see cref="Reference{TProp,TBase}.Model"/>.</param>
-        /// <param name="model">The base object to retrieve the property from.</param>
-        /// <returns>The reference object.</returns>
-        public static Reference<TBase, TProp> Bind<TBase, TProp>(this TBase model, Expression<Func<TBase, TProp>> expression)
-            => Create(expression, model);
-    }
-
-    /// <summary>
-    /// Static methods.
-    /// </summary>
-    public static class Reference<TBase>
-    {
-        /// <summary>
-        /// Creates a reference to a <see cref="TProp"/> field or property, based on the provided <see cref="model"/>.
-        /// </summary>
-        /// <typeparam name="TProp">The type of the resulting value.</typeparam>
-        /// <param name="expression">A getter that retrieves the <see cref="Reference{TProp, TBase}.Value"/> from the <see cref="Reference{TProp,TBase}.Model"/>.</param>
-        /// <param name="model">The base object to retrieve the property from.</param>
-        /// <returns>The reference object.</returns>
-        public static Reference<TBase, TProp> Create<TProp>(Expression<Func<TBase, TProp>> expression, TBase model = default(TBase))
-            => new Reference<TBase, TProp>(expression, model);
-    }
-
-    /// <summary>
     /// An <see cref="IReference{TProp}"/> implementation which takes a getter expression to extract a <see cref="TProp"/> property or field from the provided <see cref="Reference{TProp,TBase}.Model"/>.
     /// </summary>
     /// <typeparam name="TBase">The type of the base object.</typeparam>
@@ -63,7 +19,7 @@ namespace Refer
         /// <summary>
         /// Gets or sets the base model to base the reference on.
         /// </summary>
-        public TBase Model { get; set; }
+        public virtual TBase Model { get; set; }
 
         /// <summary>
         /// Creates a new reference based on the provided <see cref="expression"/> and optional <see cref="model"/>.
@@ -217,5 +173,59 @@ namespace Refer
                 throw new InvalidReferenceException("Reference could not be set.", ex);
             }
         }
+
+        /// <summary>
+        /// Creates a reference to a <see cref="TProp"/> field or property, based on the provided <see cref="model"/>.
+        /// </summary>
+        /// <typeparam name="TProp">The type of the resulting value.</typeparam>
+        /// <param name="expression">A getter that retrieves the <see cref="Reference{TProp, TBase}.Value"/> from the <see cref="Reference{TProp,TBase}.Model"/>.</param>
+        /// <param name="model">The base object to retrieve the property from.</param>
+        /// <returns>The reference object.</returns>
+        public static Reference<TBase, TProp> Create(Expression<Func<TBase, TProp>> expression, TBase model = default(TBase))
+            => new Reference<TBase, TProp>(expression, model);
+    }
+
+    /// <summary>
+    /// Static methods.
+    /// </summary>
+    public static class Reference
+    {
+        /// <summary>
+        /// Creates a reference to a <see cref="TProp"/> field or property, based on the provided <see cref="model"/>.
+        /// </summary>
+        /// <typeparam name="TProp">The type of the resulting value.</typeparam>
+        /// <typeparam name="TBase">The type of the base object.</typeparam>
+        /// <param name="expression">A getter that retrieves the <see cref="Reference{TProp, TBase}.Value"/> from the <see cref="Reference{TProp,TBase}.Model"/>.</param>
+        /// <param name="model">The base object to retrieve the property from.</param>
+        /// <returns>The reference object.</returns>
+        public static Reference<TBase, TProp> Create<TBase, TProp>(Expression<Func<TBase, TProp>> expression, TBase model = default(TBase))
+            => new Reference<TBase, TProp>(expression, model);
+
+        /// <summary>
+        /// Creates a reference to a <see cref="TProp"/> field or property, based on <see cref="model"/> it is called on.
+        /// </summary>
+        /// <typeparam name="TProp">The type of the resulting value.</typeparam>
+        /// <typeparam name="TBase">The type of the base object.</typeparam>
+        /// <param name="expression">A getter that retrieves the <see cref="Reference{TProp, TBase}.Value"/> from the <see cref="Reference{TProp,TBase}.Model"/>.</param>
+        /// <param name="model">The base object to retrieve the property from.</param>
+        /// <returns>The reference object.</returns>
+        public static Reference<TBase, TProp> Bind<TBase, TProp>(this TBase model, Expression<Func<TBase, TProp>> expression)
+            => Create(expression, model);
+    }
+
+    /// <summary>
+    /// Static methods.
+    /// </summary>
+    public static class Reference<TBase>
+    {
+        /// <summary>
+        /// Creates a reference to a <see cref="TProp"/> field or property, based on the provided <see cref="model"/>.
+        /// </summary>
+        /// <typeparam name="TProp">The type of the resulting value.</typeparam>
+        /// <param name="expression">A getter that retrieves the <see cref="Reference{TProp, TBase}.Value"/> from the <see cref="Reference{TProp,TBase}.Model"/>.</param>
+        /// <param name="model">The base object to retrieve the property from.</param>
+        /// <returns>The reference object.</returns>
+        public static Reference<TBase, TProp> Create<TProp>(Expression<Func<TBase, TProp>> expression, TBase model = default(TBase))
+            => new Reference<TBase, TProp>(expression, model);
     }
 }
