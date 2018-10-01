@@ -22,14 +22,11 @@ namespace Refer
         public virtual TBase Model { get; set; }
 
         /// <summary>
-        /// Creates a new reference based on the provided <see cref="expression"/> and optional <see cref="model"/>.
+        /// Creates a new reference based on the provided <see cref="expression"/>.
         /// </summary>
         /// <param name="expression">A getter that retrieves the <see cref="Reference{TProp, TBase}.Value"/> from the <see cref="Reference{TProp,TBase}.Model"/>.</param>
-        /// <param name="model">The base object to retrieve the property from.</param>
-        public Reference(Expression<Func<TBase, TProp>> expression, TBase model = default(TBase))
+        public Reference(Expression<Func<TBase, TProp>> expression)
         {
-            Model = model;
-
             GetterFunction = new Lazy<Func<TBase, TProp>>(expression.Compile);
             SetterFunction = new Lazy<Action<TBase, TProp>>(CreateSetter);
 
@@ -59,6 +56,17 @@ namespace Refer
                     return body;
                 }
             }
+        }
+
+        /// <summary>
+        /// Creates a new reference based on the provided <see cref="expression"/> and <see cref="model"/>.
+        /// </summary>
+        /// <param name="expression">A getter that retrieves the <see cref="Reference{TProp, TBase}.Value"/> from the <see cref="Reference{TProp,TBase}.Model"/>.</param>
+        /// <param name="model">The base object to retrieve the property from.</param>
+        public Reference(Expression<Func<TBase, TProp>> expression, TBase model)
+            : this(expression)
+        {
+            Model = model;
         }
 
         /// <inheritdoc cref="IReference{TProp}.Valid"/>
