@@ -28,12 +28,14 @@
             <returns>The condition object.</returns>
         </member>
         <member name="T:Refer.Condition`1">
+            <inheritdoc/>
             <summary>
             A wrapper to calculate a boolean condition based on the provided <see cref="!:Condition&lt;TBase&gt;.Model"/>.
             </summary>
             <typeparam name="TBase">The type of the base object.</typeparam>
         </member>
         <member name="M:Refer.Condition`1.#ctor(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},`0)">
+            <inheritdoc/>
             <summary>
             Creates a condition, based on the provided <see cref="!:model"/>.
             </summary>
@@ -48,6 +50,7 @@
             </summary>
         </member>
         <member name="T:Refer.InvalidReferenceException">
+            <inheritdoc/>
             <summary>
             Describes an error during the evaluation of the path of the reference.
             </summary>
@@ -73,6 +76,11 @@
             Gets the value. Returns the default <see cref="!:TProp"/> if it cannot be evaluated.
             </summary>
         </member>
+        <member name="P:Refer.IReference`1.ValueType">
+            <summary>
+            Gets the type of the <see cref="P:Refer.IReference`1.Value"/>. Always equal to <see cref="!:TProp"/>.
+            </summary>
+        </member>
         <member name="T:Refer.IReference">
             <summary>
             Represents a reference.
@@ -93,7 +101,13 @@
             Gets the value. Returns null if it cannot be evaluated.
             </summary>
         </member>
+        <member name="P:Refer.IReference.ValueType">
+            <summary>
+            Gets the type of the <see cref="P:Refer.IReference.Value"/>.
+            </summary>
+        </member>
         <member name="T:Refer.IModelReference`2">
+            <inheritdoc/>
             <summary>
             Represents a <see cref="!:TProp"/> reference based on a <see cref="!:TBase"/> object.
             </summary>
@@ -105,26 +119,64 @@
             The base object to apply the reference to.
             </summary>
         </member>
+        <member name="M:Refer.IModelReference`2.GetValue(`0)">
+            <summary>
+            Gets the value based on the provided model.
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Refer.IModelReference`2.GetValueOrDefault(`0)">
+            <summary>
+            Gets the value based on the provided model. Returns the default value for <see cref="!:TProp"/> on error.
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Refer.IModelReference`2.SetValue(`0,`1)">
+            <summary>
+            Sets the value based on the provided model.
+            </summary>
+            <param name="model"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
         <member name="T:Refer.IModelReference`1">
+            <inheritdoc/>
             <summary>
             Represents a reference based on a <see cref="!:TBase"/> object.
             </summary>
             <typeparam name="TBase">The type of the base object.</typeparam>
         </member>
         <member name="P:Refer.IModelReference`1.Model">
-            <summary>
             <inheritdoc cref="P:Refer.IModelReference`2.Model"/>
-            </summary>
+        </member>
+        <member name="M:Refer.IModelReference`1.GetValue(`0)">
+            <inheritdoc cref="M:Refer.IModelReference`2.GetValue(`0)"/>
+        </member>
+        <member name="M:Refer.IModelReference`1.GetValueOrDefault(`0)">
+            <inheritdoc cref="M:Refer.IModelReference`2.GetValueOrDefault(`0)"/>
+        </member>
+        <member name="M:Refer.IModelReference`1.SetValue(`0,System.Object)">
+            <inheritdoc cref="M:Refer.IModelReference`2.SetValue(`0,`1)"/>
         </member>
         <member name="T:Refer.IModelReference">
+            <inheritdoc/>
             <summary>
             Represents a reference based on a object.
             </summary>
         </member>
         <member name="P:Refer.IModelReference.Model">
-            <summary>
             <inheritdoc cref="P:Refer.IModelReference`2.Model"/>
-            </summary>
+        </member>
+        <member name="M:Refer.IModelReference.GetValue(System.Object)">
+            <inheritdoc cref="M:Refer.IModelReference`2.GetValue(`0)"/>
+        </member>
+        <member name="M:Refer.IModelReference.GetValueOrDefault(System.Object)">
+            <inheritdoc cref="M:Refer.IModelReference`2.GetValueOrDefault(`0)"/>
+        </member>
+        <member name="M:Refer.IModelReference.SetValue(System.Object,System.Object)">
+            <inheritdoc cref="M:Refer.IModelReference`2.SetValue(`0,`1)"/>
         </member>
         <member name="T:Refer.Reference">
             <summary>
@@ -185,34 +237,25 @@
             <param name="model">The base object to retrieve the property from.</param>
         </member>
         <member name="P:Refer.Reference`2.Valid">
-            <summary>
             <inheritdoc cref="P:Refer.IReference`1.Valid"/>
-            </summary>
         </member>
         <member name="P:Refer.Reference`2.Value">
-            <summary>
             <inheritdoc cref="P:Refer.IReference`1.Value"/>
-            </summary>
-        </member>
-        <member name="P:Refer.Reference`2.ValueOrDefault">
-            <summary>
-            <inheritdoc cref="P:Refer.IReference`1.ValueOrDefault"/>
-            </summary>
         </member>
         <member name="P:Refer.Reference`2.Refer#IReference#Value">
-            <summary>
             <inheritdoc cref="P:Refer.IReference.Value"/>
-            </summary>
+        </member>
+        <member name="P:Refer.Reference`2.ValueOrDefault">
+            <inheritdoc cref="P:Refer.IReference`1.ValueOrDefault"/>
         </member>
         <member name="P:Refer.Reference`2.Refer#IReference#ValueOrDefault">
-            <summary>
             <inheritdoc cref="P:Refer.IReference.ValueOrDefault"/>
-            </summary>
         </member>
         <member name="P:Refer.Reference`2.Refer#IModelReference#Model">
-            <summary>
             <inheritdoc cref="P:Refer.IModelReference.Model"/>
-            </summary>
+        </member>
+        <member name="P:Refer.Reference`2.ValueType">
+            <inheritdoc cref="P:Refer.IReference`1.ValueType"/>
         </member>
     </members>
 </doc>

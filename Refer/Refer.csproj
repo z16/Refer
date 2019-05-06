@@ -15,7 +15,7 @@
     <RepositoryUrl>https://github.com/z16/Refer</RepositoryUrl>
     <PackageIconUrl />
     <PackageLicenseUrl>https://github.com/z16/Refer/blob/master/LICENSE</PackageLicenseUrl>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
