@@ -3,19 +3,21 @@
   <PropertyGroup>
     <TargetFramework>netstandard1.0</TargetFramework>
     <PackageId>Refer.z16</PackageId>
-    <PackageVersion>1.1.0</PackageVersion>
+    <PackageVersion>1.2.0</PackageVersion>
     <Authors>z16</Authors>
     <Description>A library to create dynamic references to properties or fields in nested code structures.</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <PackageReleaseNotes>Added GetValue, GetValueOrDefault and SetValue</PackageReleaseNotes>
+    <PackageReleaseNotes>Minor API additions, added static Create function, added tests for dynamic types.</PackageReleaseNotes>
     <Copyright>This project is in the public domain according to CC0-1.0.</Copyright>
     <PackageTags>reference refer lense</PackageTags>
-    <Version>1.1.0</Version>
+    <Version>1.2.0</Version>
     <PackageProjectUrl>https://github.com/z16/Refer</PackageProjectUrl>
     <RepositoryUrl>https://github.com/z16/Refer</RepositoryUrl>
     <PackageIconUrl />
-    <PackageLicenseUrl>https://github.com/z16/Refer/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageLicenseUrl></PackageLicenseUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <AssemblyVersion>1.2.0.0</AssemblyVersion>
+    <PackageLicenseExpression>CC0-1.0</PackageLicenseExpression>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
