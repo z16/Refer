@@ -91,6 +91,21 @@ namespace Refer.Tests
                 },
             };
 
+        private dynamic Dyn = new Bar()
+        {
+            Bazzes = new []
+            {
+                new Baz()
+                {
+                    Moo = "This",
+                },
+                new Baz()
+                {
+                    Moo = "That",
+                },
+            }
+        };
+
         private class Indexer
         {
             internal Object this[Object _]
@@ -113,7 +128,7 @@ namespace Refer.Tests
         private static void CheckInvalidGet<TProp>(IReference<TProp> reference)
         {
             Assert.IsFalse(reference.Valid);
-            Assert.AreEqual(default(TProp), reference.ValueOrDefault);
+            Assert.AreEqual(default, reference.ValueOrDefault);
             try
             {
                 var value = reference.Value;
@@ -460,6 +475,28 @@ namespace Refer.Tests
             Assert.AreEqual(typeof(Int32), ((IModelReference) reference).ValueType);
             Assert.AreEqual(typeof(Int32), ((IModelReference<Int32>) reference).ValueType);
             Assert.AreEqual(typeof(Int32), ((IModelReference<Int32, Int32>) reference).ValueType);
+        }
+
+        [TestMethod]
+        public void Reference_DynamicReference_Get()
+        {
+            var reference = this.Bind(t => t.Dyn);
+
+            Assert.AreEqual("That", reference.Value.Bazzes[1].Moo);
+        }
+
+        [TestMethod]
+        public void Reference_DynamicReference_Set()
+        {
+            var reference = this.Bind(t => t.Dyn);
+
+            reference.Value.Bazzes[1].Moo = "Those";
+
+            Assert.AreEqual("Those", Dyn.Bazzes[1].Moo);
+
+            reference.Value = 123;
+
+            Assert.AreEqual(123, Dyn);
         }
     }
 }

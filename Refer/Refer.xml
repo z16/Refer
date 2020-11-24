@@ -178,6 +178,61 @@
         <member name="M:Refer.IModelReference.SetValue(System.Object,System.Object)">
             <inheritdoc cref="M:Refer.IModelReference`2.SetValue(`0,`1)"/>
         </member>
+        <member name="T:Refer.Reference`2">
+            <summary>
+            An <see cref="T:Refer.IReference`1"/> implementation which takes a getter expression to extract a <see cref="!:TProp"/> property or field from the provided <see cref="P:Refer.Reference`2.Model"/>.
+            </summary>
+            <typeparam name="TBase">The type of the base object.</typeparam>
+            <typeparam name="TProp">The type of the resulting value.</typeparam>
+        </member>
+        <member name="P:Refer.Reference`2.Model">
+            <summary>
+            Gets or sets the base model to base the reference on.
+            </summary>
+        </member>
+        <member name="M:Refer.Reference`2.#ctor(System.Linq.Expressions.Expression{System.Func{`0,`1}})">
+            <summary>
+            Creates a new reference based on the provided <see cref="!:expression"/>.
+            </summary>
+            <param name="expression">A getter that retrieves the <see cref="P:Refer.Reference`2.Value"/> from the <see cref="P:Refer.Reference`2.Model"/>.</param>
+        </member>
+        <member name="M:Refer.Reference`2.#ctor(System.Linq.Expressions.Expression{System.Func{`0,`1}},`0)">
+            <summary>
+            Creates a new reference based on the provided <see cref="!:expression"/> and <see cref="!:model"/>.
+            </summary>
+            <param name="expression">A getter that retrieves the <see cref="P:Refer.Reference`2.Value"/> from the <see cref="P:Refer.Reference`2.Model"/>.</param>
+            <param name="model">The base object to retrieve the property from.</param>
+        </member>
+        <member name="P:Refer.Reference`2.Valid">
+            <inheritdoc cref="P:Refer.IReference`1.Valid"/>
+        </member>
+        <member name="P:Refer.Reference`2.Value">
+            <inheritdoc cref="P:Refer.IReference`1.Value"/>
+        </member>
+        <member name="P:Refer.Reference`2.Refer#IReference#Value">
+            <inheritdoc cref="P:Refer.IReference.Value"/>
+        </member>
+        <member name="P:Refer.Reference`2.ValueOrDefault">
+            <inheritdoc cref="P:Refer.IReference`1.ValueOrDefault"/>
+        </member>
+        <member name="P:Refer.Reference`2.Refer#IReference#ValueOrDefault">
+            <inheritdoc cref="P:Refer.IReference.ValueOrDefault"/>
+        </member>
+        <member name="P:Refer.Reference`2.Refer#IModelReference#Model">
+            <inheritdoc cref="P:Refer.IModelReference.Model"/>
+        </member>
+        <member name="P:Refer.Reference`2.ValueType">
+            <inheritdoc cref="P:Refer.IReference`1.ValueType"/>
+        </member>
+        <member name="M:Refer.Reference`2.Create(System.Linq.Expressions.Expression{System.Func{`0,`1}},`0)">
+            <summary>
+            Creates a reference to a <see cref="!:TProp"/> field or property, based on the provided <see cref="!:model"/>.
+            </summary>
+            <typeparam name="TProp">The type of the resulting value.</typeparam>
+            <param name="expression">A getter that retrieves the <see cref="P:Refer.Reference`2.Value"/> from the <see cref="P:Refer.Reference`2.Model"/>.</param>
+            <param name="model">The base object to retrieve the property from.</param>
+            <returns>The reference object.</returns>
+        </member>
         <member name="T:Refer.Reference">
             <summary>
             Static methods.
@@ -216,46 +271,6 @@
             <param name="expression">A getter that retrieves the <see cref="P:Refer.Reference`2.Value"/> from the <see cref="P:Refer.Reference`2.Model"/>.</param>
             <param name="model">The base object to retrieve the property from.</param>
             <returns>The reference object.</returns>
-        </member>
-        <member name="T:Refer.Reference`2">
-            <summary>
-            An <see cref="T:Refer.IReference`1"/> implementation which takes a getter expression to extract a <see cref="!:TProp"/> property or field from the provided <see cref="P:Refer.Reference`2.Model"/>.
-            </summary>
-            <typeparam name="TBase">The type of the base object.</typeparam>
-            <typeparam name="TProp">The type of the resulting value.</typeparam>
-        </member>
-        <member name="P:Refer.Reference`2.Model">
-            <summary>
-            Gets or sets the base model to base the reference on.
-            </summary>
-        </member>
-        <member name="M:Refer.Reference`2.#ctor(System.Linq.Expressions.Expression{System.Func{`0,`1}},`0)">
-            <summary>
-            Creates a new reference based on the provided <see cref="!:expression"/> and optional <see cref="!:model"/>.
-            </summary>
-            <param name="expression">A getter that retrieves the <see cref="P:Refer.Reference`2.Value"/> from the <see cref="P:Refer.Reference`2.Model"/>.</param>
-            <param name="model">The base object to retrieve the property from.</param>
-        </member>
-        <member name="P:Refer.Reference`2.Valid">
-            <inheritdoc cref="P:Refer.IReference`1.Valid"/>
-        </member>
-        <member name="P:Refer.Reference`2.Value">
-            <inheritdoc cref="P:Refer.IReference`1.Value"/>
-        </member>
-        <member name="P:Refer.Reference`2.Refer#IReference#Value">
-            <inheritdoc cref="P:Refer.IReference.Value"/>
-        </member>
-        <member name="P:Refer.Reference`2.ValueOrDefault">
-            <inheritdoc cref="P:Refer.IReference`1.ValueOrDefault"/>
-        </member>
-        <member name="P:Refer.Reference`2.Refer#IReference#ValueOrDefault">
-            <inheritdoc cref="P:Refer.IReference.ValueOrDefault"/>
-        </member>
-        <member name="P:Refer.Reference`2.Refer#IModelReference#Model">
-            <inheritdoc cref="P:Refer.IModelReference.Model"/>
-        </member>
-        <member name="P:Refer.Reference`2.ValueType">
-            <inheritdoc cref="P:Refer.IReference`1.ValueType"/>
         </member>
     </members>
 </doc>
